@@ -1,0 +1,74 @@
+[
+  {
+    "file": "classes/ant-1.7.csv",
+    "source": "https://raw.githubusercontent.com/klainfo/DefectData/e65993d4bf3de34960a80cf1cc98c07224608789/inst/extdata/terapromise/ck/ant-1.7.csv",
+    "sha256": "1826b8e008654bddc9776247784200b9e431aa4ef4d70ef8b751d9a625f098f8",
+    "bytes": 98561
+  },
+  {
+    "file": "classes/camel-1.6.csv",
+    "source": "https://raw.githubusercontent.com/klainfo/DefectData/e65993d4bf3de34960a80cf1cc98c07224608789/inst/extdata/terapromise/ck/camel-1.6.csv",
+    "sha256": "358ef9bb9a0ddf091100b7dec838b92821bb13ae967670c6bd47f8da6dff5138",
+    "bytes": 122104
+  },
+  {
+    "file": "classes/ivy-2.0.csv",
+    "source": "https://raw.githubusercontent.com/klainfo/DefectData/e65993d4bf3de34960a80cf1cc98c07224608789/inst/extdata/terapromise/ck/ivy-2.0.csv",
+    "sha256": "d0c1b20820468a0f3da647ef1d098fcd1d0080595d8e3173151e8504b44ce4cc",
+    "bytes": 43184
+  },
+  {
+    "file": "classes/jedit-4.3.csv",
+    "source": "https://raw.githubusercontent.com/klainfo/DefectData/e65993d4bf3de34960a80cf1cc98c07224608789/inst/extdata/terapromise/ck/jedit-4.3.csv",
+    "sha256": "dcabd41507f6458257376c7fe67a8a97ff6b11e1c739c0b55c78e00c3926ccc0",
+    "bytes": 59485
+  },
+  {
+    "file": "classes/log4j-1.2.csv",
+    "source": "https://raw.githubusercontent.com/klainfo/DefectData/e65993d4bf3de34960a80cf1cc98c07224608789/inst/extdata/terapromise/ck/log4j-1.2.csv",
+    "sha256": "ddbfe29d4a95e9c15ebce76da5577dfcf5ecd27d180fd0936872673fd66bcf4d",
+    "bytes": 24702
+  },
+  {
+    "file": "classes/lucene-2.4.csv",
+    "source": "https://raw.githubusercontent.com/klainfo/DefectData/e65993d4bf3de34960a80cf1cc98c07224608789/inst/extdata/terapromise/ck/lucene-2.4.csv",
+    "sha256": "e2e24d1432e4a3c8a8b060a1cd2ae5e8c55475cbc3695e5e2d680eed7488c62d",
+    "bytes": 43654
+  },
+  {
+    "file": "classes/synapse-1.2.csv",
+    "source": "https://raw.githubusercontent.com/klainfo/DefectData/e65993d4bf3de34960a80cf1cc98c07224608789/inst/extdata/terapromise/ck/synapse-1.2.csv",
+    "sha256": "7452bcee4e9c6ece7602682145b59e48ea327eb0310d71bc972e77e10f72071e",
+    "bytes": 34230
+  },
+  {
+    "file": "classes/velocity-1.6.csv",
+    "source": "https://raw.githubusercontent.com/klainfo/DefectData/e65993d4bf3de34960a80cf1cc98c07224608789/inst/extdata/terapromise/ck/velocity-1.6.csv",
+    "sha256": "ef140ff26e6c380bcdca1c2c2406483185b7ce530d0065179917a5a1e84e20ea",
+    "bytes": 30813
+  },
+  {
+    "file": "classes/xalan-2.7.csv",
+    "source": "https://raw.githubusercontent.com/klainfo/DefectData/e65993d4bf3de34960a80cf1cc98c07224608789/inst/extdata/terapromise/ck/xalan-2.7.csv",
+    "sha256": "0c0512c775db231aaf0c460e57e994ef977ed547ec4b0953f38e6abd6568e6eb",
+    "bytes": 116204
+  },
+  {
+    "file": "classes/xerces-1.4.csv",
+    "source": "https://raw.githubusercontent.com/klainfo/DefectData/e65993d4bf3de34960a80cf1cc98c07224608789/inst/extdata/terapromise/ck/xerces-1.4.csv",
+    "sha256": "1e1284418b6e3dac5a56c7379c7e7a54d53e9137c1474020a392462c07bf8c0b",
+    "bytes": 70624
+  },
+  {
+    "file": "commits/apachejit_test_large.csv",
+    "source": "https://github.com/hosseinkshvrz/apachejit/blob/ddfd547ff8e3d3725f6a1fd0f177c0ebe085a4b5/dataset/apachejit_test_large.csv",
+    "sha256": "2f21e858026fa625f51f4f6639d845c22c24595e212a3b03d8a5df93bde43ea2",
+    "bytes": 4689193
+  },
+  {
+    "file": "commits/apachejit_total.csv",
+    "source": "https://github.com/hosseinkshvrz/apachejit/blob/ddfd547ff8e3d3725f6a1fd0f177c0ebe085a4b5/dataset/apachejit_total.csv",
+    "sha256": "5097cbbbab8c4611a709b3cf95ac5c9fe5f62e619bab081911a2a247ddbed4e0",
+    "bytes": 16467692
+  }
+]

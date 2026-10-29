@@ -1,0 +1,7 @@
+scenario,model,searches,evaluations_mean,search_hours_total,warnings_total
+classes,LR,50,279.0,0.129,0
+classes,RF,50,242.28,5.026,0
+classes,SVM,50,279.52,0.122,0
+commits,LR,5,166.6,0.045,0
+commits,RF,5,119.8,6.765,0
+commits,SVM,5,185.2,0.052,0

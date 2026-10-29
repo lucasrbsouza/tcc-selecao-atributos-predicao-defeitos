@@ -1,0 +1,34 @@
+scenario,outer_test,inner_fold,train_n,train_positive,validation_n,validation_positive,train_groups,validation_groups,test_n,test_positive
+classes,ant,1,2826,1550,1510,580,ivy jedit synapse velocity xalan xerces,camel log4j lucene,745,166
+classes,ant,2,2846,1114,1490,1016,camel jedit log4j lucene synapse xerces,ivy velocity xalan,745,166
+classes,ant,3,3000,1596,1336,534,camel ivy log4j lucene velocity xalan,jedit synapse xerces,745,166
+classes,camel,1,2662,818,1454,1290,ant ivy jedit synapse velocity xerces,log4j lucene xalan,965,188
+classes,camel,2,2790,1824,1326,284,jedit log4j lucene synapse xalan xerces,ant ivy velocity,965,188
+classes,camel,3,2780,1574,1336,534,ant ivy log4j lucene velocity xalan,jedit synapse xerces,965,188
+classes,ivy,1,3168,1779,1561,477,ant jedit log4j velocity xalan xerces,camel lucene synapse,352,40
+classes,ivy,2,3123,1158,1606,1098,ant camel lucene synapse velocity xerces,jedit log4j xalan,352,40
+classes,ivy,3,3167,1575,1562,681,camel jedit log4j lucene synapse xalan,ant velocity xerces,352,40
+classes,jedit,1,3055,1816,1534,469,ant ivy log4j synapse xalan xerces,camel lucene velocity,492,11
+classes,jedit,2,3072,1261,1517,1024,ant camel log4j lucene velocity xerces,ivy synapse xalan,492,11
+classes,jedit,3,3051,1493,1538,792,camel ivy lucene synapse velocity xalan,ant log4j xerces,492,11
+classes,log4j,1,3219,1676,1657,431,ant jedit synapse velocity xalan xerces,camel ivy lucene,205,189
+classes,log4j,2,3246,1120,1630,987,ant camel ivy lucene synapse xerces,jedit velocity xalan,205,189
+classes,log4j,3,3287,1418,1589,689,camel ivy jedit lucene velocity xalan,ant synapse xerces,205,189
+classes,lucene,1,3168,1779,1573,314,ant jedit log4j velocity xalan xerces,camel ivy synapse,340,203
+classes,lucene,2,3135,995,1606,1098,ant camel ivy synapse velocity xerces,jedit log4j xalan,340,203
+classes,lucene,3,3179,1412,1562,681,camel ivy jedit log4j synapse xalan,ant velocity xerces,340,203
+classes,synapse,1,3168,1779,1657,431,ant jedit log4j velocity xalan xerces,camel ivy lucene,256,86
+classes,synapse,2,3219,1112,1606,1098,ant camel ivy lucene velocity xerces,jedit log4j xalan,256,86
+classes,synapse,3,3263,1529,1562,681,camel ivy jedit log4j lucene xalan,ant velocity xerces,256,86
+classes,velocity,1,3195,1787,1657,431,ant jedit log4j synapse xalan xerces,camel ivy lucene,229,78
+classes,velocity,2,3246,1120,1606,1098,ant camel ivy lucene synapse xerces,jedit log4j xalan,229,78
+classes,velocity,3,3263,1529,1589,689,camel ivy jedit log4j lucene xalan,ant synapse xerces,229,78
+classes,xalan,1,2662,818,1510,580,ant ivy jedit synapse velocity xerces,camel log4j lucene,909,898
+classes,xalan,2,2846,1114,1326,284,camel jedit log4j lucene synapse xerces,ant ivy velocity,909,898
+classes,xalan,3,2836,864,1336,534,ant camel ivy log4j lucene velocity,jedit synapse xerces,909,898
+classes,xerces,1,2983,1279,1510,580,ant ivy jedit synapse velocity xalan,camel log4j lucene,588,437
+classes,xerces,2,3003,843,1490,1016,ant camel jedit log4j lucene synapse,ivy velocity xalan,588,437
+classes,xerces,3,3000,1596,1493,263,camel ivy log4j lucene velocity xalan,ant jedit synapse,588,437
+commits,temporal,1,39814,11801,12319,3365,2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013,2014,30111,5818
+commits,temporal,2,52133,15166,13824,4167,2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014,2015,30111,5818
+commits,temporal,3,65957,19333,10606,3088,2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015,2016,30111,5818
