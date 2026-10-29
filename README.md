@@ -64,3 +64,8 @@ Ao usar os dados, cite os autores originais:
 
 - JURECZKO, M.; MADEYSKI, L. Towards identifying software project clusters with regard to defect prediction. PROMISE 2010.
 - KESHAVARZ, H.; NAGAPPAN, M. ApacheJIT: a large dataset for just-in-time defect prediction. MSR 2022.
+
+## Licença
+
+O código deste repositório é distribuído sob a [GNU General Public License v3.0](LICENSE). Copyright (C) 2026
+José Lucas Silva Souza. Os dados das bases não fazem parte do repositório e seguem as condições de uso de seus autores.
