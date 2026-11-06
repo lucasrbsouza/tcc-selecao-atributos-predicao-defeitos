@@ -17,7 +17,8 @@ São 165 buscas (5 sementes) e 330 avaliações externas.
 
 A seleção reduziu, em média, de 22% a 50% dos atributos, mas nenhuma das seis comparações entre seleção e linha de
 base mostrou ganho significativo após a correção de Holm. Na floresta aleatória com classes, a seleção piorou o MCC
-em sete dos dez projetos. Os ganhos obtidos nas validações internas foram maiores que os observados no teste.
+em sete dos dez projetos. Os ganhos obtidos nas validações internas foram maiores que os observados no teste. Um filtro
+univariado e uma seleção embutida L1, avaliados sob o mesmo protocolo, também não produziram ganho significativo.
 
 ## Estrutura
 
@@ -26,6 +27,8 @@ em sete dos dez projetos. Os ganhos obtidos nas validações internas foram maio
 | `run_experiment.py` | Experimento completo. Grava um JSON por tarefa e um cache por avaliação; pode ser interrompido e retomado. |
 | `analyze.py` | Análise das questões de pesquisa: QP1, QP2 (Wilcoxon pareado e Holm) e QP3, além da análise de sensibilidade. |
 | `figures.py` | Figuras do artigo. |
+| `run_alternatives.py` | Experimento complementar: filtro univariado (teste F) e seleção embutida (regressão logística L1), sob o mesmo protocolo. |
+| `analyze_alternatives.py` | Comparação entre Hill Climbing, filtro e L1. |
 | `download_data.py`, `data_manifest.json` | Obtenção dos dados nas fontes originais, com conferência de SHA-256. |
 | `results/tasks/` | Um JSON por (cenário, rodada, modelo, semente): subconjunto escolhido, trajetórias, rastro da busca e métricas externas. |
 | `results/eval_cache/` | Cada avaliação de candidato: MCC em cada divisão interna e tempo. |
@@ -34,6 +37,7 @@ em sete dos dez projetos. Os ganhos obtidos nas validações internas foram maio
 | `results/figures/` | Figuras. |
 | `results/partitions.csv` | Partições internas e externas. |
 | `results/environment.json`, `results/run.log` | Ambiente e registro da execução. |
+| `results/alternatives/` | Resultados do experimento complementar (tarefas, cache das avaliações e análise). |
 
 ## Como reproduzir
 
@@ -45,6 +49,8 @@ python download_data.py          # baixa os dados e confere os hashes
 python run_experiment.py --workers 2   # cerca de 12 horas de CPU; reaproveita o que já estiver em results/
 python analyze.py
 python figures.py
+python run_alternatives.py --workers 2   # experimento complementar (cerca de 1 hora)
+python analyze_alternatives.py
 ```
 
 Os resultados da execução original já estão em `results/`. Para recalcular tudo do zero, apague `results/tasks/` e

@@ -82,9 +82,11 @@ def run_task(task):
     # ---------------- filtro
     cand = []
     for k in range(1, len(cols) + 1):
-        r = evaluate(f'filter_k{k}', [rk[:k] for rk in ranks]); cand.append((k, r))
+        # mantém a ordem original das colunas (a ordem altera os sorteios internos da floresta)
+        r = evaluate(f'filter_k{k}', [[c for c in cols if c in rk[:k]] for rk in ranks]); cand.append((k, r))
     best_k = min(cand, key=lambda kr: (-kr[1]['mcc'], kr[0]))[0]
-    chosen_filter = f_rank(dev[cols], dev.target)[:best_k]
+    top = f_rank(dev[cols], dev.target)[:best_k]
+    chosen_filter = [c for c in cols if c in top]
     # ---------------- L1
     cand_l1 = []
     for C in C_GRID:

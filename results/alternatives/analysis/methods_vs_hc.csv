@@ -1,0 +1,13 @@
+scenario,model,comparison,median,n_positive,n_negative
+classes,LR,filter_minus_hc,-0.0006297084977974071,5,5
+classes,LR,l1_minus_hc,-0.005039697058475449,4,6
+classes,RF,filter_minus_hc,0.018268010896746845,7,3
+classes,RF,l1_minus_hc,0.04334000529843711,8,2
+classes,SVM,filter_minus_hc,-0.013323213153829339,4,6
+classes,SVM,l1_minus_hc,-0.01800646746641607,4,6
+commits,LR,filter_minus_hc,-0.017274334885230447,4,9
+commits,LR,l1_minus_hc,-0.017022484578918584,4,9
+commits,RF,filter_minus_hc,-0.0027936943736905084,5,8
+commits,RF,l1_minus_hc,-0.001971587997180224,5,8
+commits,SVM,filter_minus_hc,-0.004948095538135688,5,8
+commits,SVM,l1_minus_hc,-0.016984974357187765,6,7
