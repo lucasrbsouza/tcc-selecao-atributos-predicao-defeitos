@@ -1,0 +1,7 @@
+scenario,model,n,p_bilateral,p_unilateral_piora
+classes,LR,10,0.375,0.838867
+classes,RF,10,0.064453,0.032227
+classes,SVM,10,0.556641,0.753906
+commits,LR,13,0.146484,0.936401
+commits,RF,13,0.635498,0.706055
+commits,SVM,13,0.30542,0.863281

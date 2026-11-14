@@ -1,6 +1,7 @@
 """Figuras do artigo (PNG 300 dpi, fundo branco, legíveis em impressão em tons de cinza).
 
-Figura A: ΔMCC (seleção − todos os atributos) por unidade de análise, por modelo e cenário.
+Figura A: ΔMCC (seleção − todos os atributos) por unidade de análise, por modelo e cenário
+          (os dois painéis usam a mesma escala no eixo x).
 Figura B: frequência de seleção dos atributos por modelo e cenário.
 """
 import sys
@@ -10,6 +11,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import matplotlib.ticker
 
 ROOT = Path(__file__).resolve().parent
 RES = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / 'results'
@@ -30,8 +32,10 @@ plt.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 9, 'axes.edgecol
 
 def fig_delta():
     d = pd.read_csv(A / 'qp2_differences_by_unit.csv')
-    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.2), sharey=False)
+    # Mesma escala nos dois painéis (sharex): a dispersão das classes e a dos commits ficam comparáveis.
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.0), sharex=True, sharey=True)
     rng = np.random.default_rng(0)
+    lim = max(0.02, float(np.nanmax(np.abs(d.d_mcc))) * 1.15)
     for ax, s in zip(axes, ['classes', 'commits']):
         ax.axvline(0, color=INK2, lw=1, zorder=1)
         ax.grid(axis='x', color=GRID, lw=0.8, zorder=0)
@@ -43,16 +47,15 @@ def fig_delta():
             ax.scatter(v, y, s=26, marker=MARK[m], color=COLOR[m], edgecolor='white', linewidth=0.8, zorder=3)
             med = np.median(v)
             ax.plot([med, med], [i - 0.28, i + 0.28], color=INK, lw=2, zorder=4)
-        ax.set_yticks(range(3)); ax.set_yticklabels([LABEL[m] for m in MODELS])
-        ax.set_ylim(-0.6, 2.6); ax.invert_yaxis()
         ax.set_title(SCEN[s], fontsize=9.5, color=INK, loc='left')
-        ax.set_xlabel('ΔMCC (seleção − todos os atributos)')
-        lim = max(0.02, np.nanmax(np.abs(d[d.scenario == s].d_mcc)) * 1.15) if (d.scenario == s).any() else 0.05
         ax.set_xlim(-lim, lim)
-    axes[1].tick_params(labelleft=True)
-    fig.text(0.99, 0.01, 'Traço preto: mediana. Cada ponto: média das 5 sementes em uma unidade.',
-             ha='right', va='bottom', fontsize=7.5, color=INK2)
-    fig.tight_layout(rect=(0, 0.07, 1, 1))
+        ax.set_xticks([-0.10, -0.05, 0, 0.05, 0.10])
+        ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(
+            lambda v, _: f'{v:.2f}'.replace('.', ',').replace('-', '−')))
+    axes[0].set_yticks(range(3)); axes[0].set_yticklabels([LABEL[m] for m in MODELS])
+    axes[0].set_ylim(-0.6, 2.6); axes[0].invert_yaxis()
+    fig.supxlabel('ΔMCC (seleção − todos os atributos)', fontsize=9, color=INK, y=0.02)
+    fig.tight_layout(rect=(0, 0.03, 1, 1), w_pad=2.0)
     fig.savefig(FIG / 'fig_delta_mcc.png', dpi=300, facecolor='white'); plt.close(fig)
 
 def fig_freq():

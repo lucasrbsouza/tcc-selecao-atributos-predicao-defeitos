@@ -29,6 +29,7 @@ univariado e uma seleção embutida L1, avaliados sob o mesmo protocolo, também
 | `figures.py` | Figuras do artigo. |
 | `run_alternatives.py` | Experimento complementar: filtro univariado (teste F) e seleção embutida (regressão logística L1), sob o mesmo protocolo. |
 | `analyze_alternatives.py` | Comparação entre Hill Climbing, filtro e L1. |
+| `analyze_posthoc.py` | Análises a posteriori feitas só com os registros gravados: trajetórias e paradas por orçamento, origem da máscara escolhida, ganho interno, Wilcoxon bilateral e desempenho dos commits sem `apache/hadoop` (saídas em `results/analysis/posthoc_*.csv`). |
 | `download_data.py`, `data_manifest.json` | Obtenção dos dados nas fontes originais, com conferência de SHA-256. |
 | `results/tasks/` | Um JSON por (cenário, rodada, modelo, semente): subconjunto escolhido, trajetórias, rastro da busca e métricas externas. |
 | `results/eval_cache/` | Cada avaliação de candidato: MCC em cada divisão interna e tempo. |
@@ -51,6 +52,7 @@ python analyze.py
 python figures.py
 python run_alternatives.py --workers 2   # experimento complementar (cerca de 1 hora)
 python analyze_alternatives.py
+python analyze_posthoc.py
 ```
 
 Os resultados da execução original já estão em `results/`. Para recalcular tudo do zero, apague `results/tasks/` e

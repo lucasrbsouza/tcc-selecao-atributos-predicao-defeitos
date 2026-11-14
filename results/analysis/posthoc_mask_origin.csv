@@ -1,0 +1,7 @@
+scenario,model,buscas,origem_completa,origem_aleatoria,selecionados_media,inicio_media,distancia_media,distancia_max
+classes,LR,50,11,39,10.2,11.98,4.86,5
+classes,RF,50,3,47,10.0,10.08,4.28,5
+classes,SVM,50,11,39,10.26,12.16,4.86,5
+commits,LR,5,5,0,8.0,12.0,4.0,4
+commits,RF,5,3,2,9.4,9.6,3.0,4
+commits,SVM,5,2,3,6.4,8.6,5.4,7
