@@ -10,6 +10,8 @@ previsões já gravados em results/ (nenhum modelo é reajustado):
 5. Teste de commits sem o identificador apache/hadoop (sem positivos na base): MCC, F1, precisão e
    sensibilidade a partir das matrizes de confusão por identificador; AUC-ROC a partir das previsões,
    se os dados estiverem em data/ (python download_data.py).
+6. Estimador de Hodges-Lehmann (mediana das médias de Walsh) e intervalo de confiança exato, baseado
+   na distribuição nula da estatística de Wilcoxon, para o ΔMCC por unidade de análise.
 
 Uso: python analyze_posthoc.py [results] [data]
 Saída: results/analysis/posthoc_*.csv
@@ -85,6 +87,42 @@ t4 = pd.DataFrame([dict(scenario=s, model=m, n=len(v),
                    for s in SCEN for m in MODELS
                    for v in [d[(d.scenario == s) & (d.model == m)].d_mcc.to_numpy()]]).round(6)
 t4.to_csv(OUT / 'posthoc_wilcoxon_two_sided.csv', index=False)
+
+
+# 6. Hodges-Lehmann e intervalo de confiança exato ------------------------------------------------
+def signed_rank_cdf(n):
+    """P(T <= k) para a soma de postos de Wilcoxon sob H0, sem empates (enumeração exata)."""
+    counts = np.zeros(n * (n + 1) // 2 + 1)
+    counts[0] = 1.0
+    for r in range(1, n + 1):
+        shifted = np.zeros_like(counts)
+        shifted[r:] = counts[:-r]
+        counts = counts + shifted
+    return np.cumsum(counts / counts.sum())
+
+
+def hodges_lehmann(v, conf=0.95):
+    v = np.asarray(v, dtype=float)
+    n = len(v)
+    i, j = np.triu_indices(n)
+    walsh = np.sort((v[i] + v[j]) / 2)
+    cdf = signed_rank_cdf(n)
+    k = int(np.searchsorted(cdf, (1 - conf) / 2, side='right')) - 1   # maior k com P(T <= k) <= alfa/2
+    if k < 0:
+        return np.median(walsh), walsh[0], walsh[-1], 1.0
+    achieved = 1 - 2 * cdf[k]                                         # k médias descartadas em cada cauda
+    return np.median(walsh), walsh[k], walsh[len(walsh) - 1 - k], achieved
+
+
+rows6 = []
+for s in SCEN:
+    for m in MODELS:
+        v = d[(d.scenario == s) & (d.model == m)].d_mcc.to_numpy()
+        hl, lo, hi, conf = hodges_lehmann(v)
+        rows6.append(dict(scenario=s, model=m, n=len(v), mediana=np.median(v), hodges_lehmann=hl,
+                          ic_inferior=lo, ic_superior=hi, confianca=conf))
+t6 = pd.DataFrame(rows6).round(6)
+t6.to_csv(OUT / 'posthoc_hodges_lehmann.csv', index=False)
 
 # 5. Commits sem apache/hadoop -------------------------------------------------------------------
 keep = None
