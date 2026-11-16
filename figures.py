@@ -83,5 +83,41 @@ def fig_freq():
     cb.set_ticks([0, 0.5, 1]); cb.set_ticklabels(['0', '50', '100']); cb.outline.set_visible(False)
     fig.savefig(FIG / 'fig_attribute_frequency.png', dpi=300, facecolor='white', bbox_inches='tight'); plt.close(fig)
 
+def fig_protocol():
+    """Figura 1: fluxo do protocolo nos dois cenários (desenho, sem dados)."""
+    from matplotlib.patches import FancyBboxPatch
+    fig, ax = plt.subplots(figsize=(7.2, 4.6))
+    ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis('off')
+
+    def box(x, y, w, h, lines, title=False):
+        ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle='round,pad=0,rounding_size=1.2', fc='#F3F3F3', ec=INK2, lw=0.8))
+        step = 5.4 if title else 4.9
+        y0 = y + h / 2 + step * (len(lines) - 1) / 2
+        for i, t in enumerate(lines):
+            ax.text(x + w / 2, y0 - i * step, t, ha='center', va='center', color=INK,
+                    fontsize=9.5 if title else 8.6)
+
+    def arrow(x, y1, y2):
+        ax.annotate('', xy=(x, y2), xytext=(x, y1), arrowprops=dict(arrowstyle='-|>', color=INK, lw=0.9, mutation_scale=9))
+
+    xl, xr, w = 2, 52.5, 45.5
+    box(xl, 86, w, 12.5, ['CLASSES', '10 projetos • uma versão por projeto'], title=True)
+    box(xr, 86, w, 12.5, ['COMMITS', 'Estratos publicados do ApacheJIT'], title=True)
+    box(xl, 69, w, 11.5, ['Rodada externa: 9 projetos para desenvolver', '1 projeto reservado para teste'])
+    box(xr, 69, w, 11.5, ['Desenvolvimento: year até 2016', 'Teste reservado: year de 2017 a 2019'])
+    box(xl, 52, w, 11.5, ['Validação interna: GroupKFold com 3 divisões', 'Projetos de treino e validação separados'])
+    box(xr, 52, w, 11.5, ['3 janelas internas com treino crescente', 'Validações nos estratos 2014, 2015 e 2016'])
+    xc, wc = 17.5, 65
+    box(xc, 30, wc, 16.5, ['Linha de base completa e seleção por Hill Climbing', 'Transformações ajustadas em cada treino interno',
+                          'Busca orientada somente pela validação'])
+    box(xc, 17, wc, 7.5, ['Reajuste no desenvolvimento com a máscara escolhida'])
+    box(xc, 1, wc, 10.5, ['Avaliação externa uma vez por configuração e semente', 'F1 • AUC-ROC • MCC • número de atributos • tempo'])
+    for x in (xl + w / 2, xr + w / 2):
+        arrow(x, 86, 80.5); arrow(x, 69, 63.5); arrow(x, 52, 46.5)
+    arrow(50, 30, 24.5); arrow(50, 17, 11.5)
+    fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01)
+    fig.savefig(FIG / 'fig_protocol.png', dpi=300, facecolor='white'); plt.close(fig)
+
+
 if __name__ == '__main__':
-    fig_delta(); fig_freq(); print('figuras em', FIG)
+    fig_protocol(); fig_delta(); fig_freq(); print('figuras em', FIG)

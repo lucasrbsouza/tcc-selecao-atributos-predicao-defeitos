@@ -60,3 +60,21 @@ posteriori da seção 3.8.
 
 Os resultados das 150 buscas serão reportados no artigo e arquivados neste repositório (em
 `results/convergence/` e `results/analysis/convergence_*.csv`), quaisquer que sejam.
+
+## Execução (acrescentado depois da execução)
+
+- **Período:** 16/11/2026, das 16h40 às 19h45 (horário de Brasília), iniciada logo após o commit deste registro
+  (c309b40). Ambiente em nuvem com processadores Intel Xeon virtualizados, duas CPUs lógicas, dois processos com uma
+  thread cada; Python 3.13.18, NumPy 2.3.5, pandas 2.2.3, scikit-learn 1.7.2 e SciPy 1.16.3.
+- **Interrupção:** o ambiente foi reiniciado uma vez, com 142 das 150 buscas concluídas. A execução foi retomada a
+  partir das tarefas e das avaliações já gravadas, como no experimento principal; como a busca é determinística, a
+  retomada não altera as trajetórias. `results/convergence/environment.json` descreve o ambiente da retomada.
+- **Execução exploratória anterior:** as 100 buscas da regressão logística e da SVM linear reproduziram integralmente a
+  execução exploratória feita antes deste registro (mesmos rastros de busca, máscaras escolhidas e métricas no teste).
+- **Conferência** (`results/analysis/convergence_check.csv`): as 40.040 avaliações do experimento principal nessas 150
+  buscas reaparecem com valores idênticos; as trajetórias que já terminavam em ótimo local terminam no mesmo ponto;
+  as 450 trajetórias terminaram em ótimo local; nenhum ajuste emitiu aviso.
+- **Custo:** 62.467 avaliações de candidatos; tempo de busca somado de 0,26 h na regressão logística, 5,55 h na
+  floresta aleatória e 0,24 h na SVM linear.
+- **Resultados:** `results/convergence/` (tarefas, cache das avaliações e previsões) e
+  `results/analysis/convergence_*.csv`, todos reportados no artigo como análise a posteriori (f).

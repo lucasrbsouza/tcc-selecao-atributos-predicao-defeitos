@@ -3,8 +3,8 @@
 Código e resultados do Trabalho de Conclusão de Curso de **José Lucas Silva Souza**
 (Engenharia de Software, Instituto de Ensino Superior iCEV), orientado pelo Prof. Me. Mauro José Araújo de Melo.
 
-O estudo avalia se a seleção de atributos por Hill Climbing preserva ou melhora o desempenho de classificadores
-de defeitos em duas granularidades:
+O estudo avalia o efeito da seleção de atributos por Hill Climbing sobre o desempenho de classificadores de
+defeitos em duas granularidades:
 
 - **classe**: 10 projetos Java da coleção de Jureczko e Madeyski, avaliados entre projetos (leave-one-project-out);
 - **commit**: 106.674 commits do ApacheJIT, avaliados por período (desenvolvimento até 2016, teste de 2017 a 2019).
@@ -20,16 +20,24 @@ base mostrou ganho significativo após a correção de Holm. Na floresta aleató
 em sete dos dez projetos. Os ganhos obtidos nas validações internas foram maiores que os observados no teste. Um filtro
 univariado e uma seleção embutida L1, avaliados sob o mesmo protocolo, também não produziram ganho significativo.
 
+Na análise a posteriori (f), registrada em `REGISTRO_ANALISE_F.md` antes da execução, as 150 buscas do cenário de
+classes foram refeitas sem limite de orçamento, até o ótimo local. Nenhum dos três classificadores passou a ter ganho:
+o ganho na validação interna aumentou e o ganho no teste diminuiu nos três, e, na floresta aleatória, o intervalo de
+confiança da diferença de MCC ficou inteiramente abaixo de zero.
+
 ## Estrutura
 
 | Caminho | Conteúdo |
 |---|---|
 | `run_experiment.py` | Experimento completo. Grava um JSON por tarefa e um cache por avaliação; pode ser interrompido e retomado. |
 | `analyze.py` | Análise das questões de pesquisa: QP1, QP2 (Wilcoxon pareado e Holm) e QP3, além da análise de sensibilidade. |
-| `figures.py` | Figuras do artigo. |
+| `figures.py` | Figuras do artigo (Figura 1, fluxo do protocolo; Figuras 2 e 3, resultados). |
 | `run_alternatives.py` | Experimento complementar: filtro univariado (teste F) e seleção embutida (regressão logística L1), sob o mesmo protocolo. |
 | `analyze_alternatives.py` | Comparação entre Hill Climbing, filtro e L1. |
 | `analyze_posthoc.py` | Análises a posteriori feitas só com os registros gravados: trajetórias e paradas por orçamento, origem da máscara escolhida, ganho interno, Wilcoxon bilateral, estimativa de Hodges-Lehmann com intervalo de confiança e desempenho dos commits sem `apache/hadoop` (saídas em `results/analysis/posthoc_*.csv`). |
+| `REGISTRO_ANALISE_F.md` | Registro da análise a posteriori (f), feito antes da execução, e o relato da execução. |
+| `run_convergence.py` | Análise (f): as 150 buscas do cenário de classes sem limite de orçamento (parada apenas em ótimo local). |
+| `analyze_convergence.py` | Comparação da análise (f) com a análise principal (saídas em `results/analysis/convergence_*.csv`). |
 | `download_data.py`, `data_manifest.json` | Obtenção dos dados nas fontes originais, com conferência de SHA-256. |
 | `results/tasks/` | Um JSON por (cenário, rodada, modelo, semente): subconjunto escolhido, trajetórias, rastro da busca e métricas externas. |
 | `results/eval_cache/` | Cada avaliação de candidato: MCC em cada divisão interna e tempo. |
@@ -39,6 +47,7 @@ univariado e uma seleção embutida L1, avaliados sob o mesmo protocolo, também
 | `results/partitions.csv` | Partições internas e externas. |
 | `results/environment.json`, `results/run.log` | Ambiente e registro da execução. |
 | `results/alternatives/` | Resultados do experimento complementar (tarefas, cache das avaliações e análise). |
+| `results/convergence/` | Resultados da análise (f): tarefas, cache das avaliações e previsões. |
 
 ## Como reproduzir
 
@@ -53,6 +62,8 @@ python figures.py
 python run_alternatives.py --workers 2   # experimento complementar (cerca de 1 hora)
 python analyze_alternatives.py
 python analyze_posthoc.py
+python run_convergence.py --workers 2   # análise a posteriori (f), cerca de 3 horas
+python analyze_convergence.py
 ```
 
 Os resultados da execução original já estão em `results/`. Para recalcular tudo do zero, apague `results/tasks/` e

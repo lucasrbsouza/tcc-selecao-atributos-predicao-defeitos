@@ -1,0 +1,7 @@
+analysis,model,searches,size_mean,size_min,size_max,reduction_pct,from_random_start,validation_gain,test_gain,evaluations_mean,search_hours,max_steps
+convergida,LR,50,9.54,3,14,52.3,35,0.075684,0.007569,474.5,0.26052,15
+convergida,RF,50,9.74,7,19,51.3,46,0.077495,-0.042995,299.12,5.545676,11
+convergida,SVM,50,9.26,3,14,53.7,39,0.078958,-0.00384,475.72,0.238967,15
+principal,LR,50,10.2,3,15,49.0,39,0.063871,0.011087,279.0,0.129427,5
+principal,RF,50,10.0,7,19,50.0,47,0.069309,-0.031399,242.28,5.025529,5
+principal,SVM,50,10.26,5,15,48.7,39,0.0669,0.014941,279.52,0.121633,5
