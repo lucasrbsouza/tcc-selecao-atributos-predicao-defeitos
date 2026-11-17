@@ -1,5 +1,7 @@
 # Seleção de atributos por Hill Climbing na predição de defeitos de software
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24295160.svg)](https://doi.org/10.5281/zenodo.24295160)
+
 Código e resultados do Trabalho de Conclusão de Curso de **José Lucas Silva Souza**
 (Engenharia de Software, Instituto de Ensino Superior iCEV), orientado pelo Prof. Me. Mauro José Araújo de Melo.
 
@@ -83,6 +85,15 @@ Ao usar os dados, cite os autores originais:
 
 - JURECZKO, M.; MADEYSKI, L. Towards identifying software project clusters with regard to defect prediction. PROMISE 2010.
 - KESHAVARZ, H.; NAGAPPAN, M. ApacheJIT: a large dataset for just-in-time defect prediction. MSR 2022.
+
+## Como citar
+
+Versão 1.1.0: [10.5281/zenodo.24295160](https://doi.org/10.5281/zenodo.24295160).
+Para citar sem fixar uma versão, use o DOI conceito [10.5281/zenodo.24258042](https://doi.org/10.5281/zenodo.24258042),
+que sempre aponta para a versão mais recente.
+
+- SOUZA, J. L. S. Seleção de atributos por Hill Climbing na predição de defeitos de software. Versão 1.1.0. Zenodo,
+  2026. DOI: 10.5281/zenodo.24295160.
 
 ## Licença
 
