@@ -1,0 +1,12 @@
+commits__temporal__LR__101.json: idêntica (exceto tempos)
+commits__temporal__LR__202.json: idêntica (exceto tempos)
+commits__temporal__LR__303.json: idêntica (exceto tempos)
+commits__temporal__LR__404.json: idêntica (exceto tempos)
+commits__temporal__LR__505.json: idêntica (exceto tempos)
+commits__temporal__RF__101.json: idêntica (exceto tempos)
+commits__temporal__SVM__101.json: idêntica (exceto tempos)
+commits__temporal__SVM__202.json: idêntica (exceto tempos)
+commits__temporal__SVM__303.json: idêntica (exceto tempos)
+commits__temporal__SVM__404.json: idêntica (exceto tempos)
+commits__temporal__SVM__505.json: idêntica (exceto tempos)
+11 tarefas comparadas; 0 com diferença

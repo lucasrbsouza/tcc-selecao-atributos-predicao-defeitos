@@ -1,0 +1,4 @@
+analysis,model,n_units,n_positive,n_negative,median_dmcc,mean_dmcc,iqr,rank_biserial,p_greater,p_two_sided,p_less,hodges_lehmann,ci_low,ci_high,ci_conf,median_df1,median_dauc,p_holm
+g_retreinado_sem_hadoop,LR,13,9,4,0.023413,0.013318,0.056697,0.384615,0.121948,0.243896,0.891846,0.018329,-0.010728,0.039026,0.952148,-0.003336,-0.001263,0.365845
+g_retreinado_sem_hadoop,RF,13,5,8,-0.004639,-0.001126,0.017974,-0.076923,0.606567,0.839355,0.419678,-0.001776,-0.010916,0.008277,0.952148,-0.000295,-0.001173,1.0
+g_retreinado_sem_hadoop,SVM,13,5,8,-0.006947,-0.011084,0.052806,-0.186813,0.729126,0.587891,0.293945,-0.006947,-0.045329,0.023921,0.952148,-0.004857,-0.002319,1.0

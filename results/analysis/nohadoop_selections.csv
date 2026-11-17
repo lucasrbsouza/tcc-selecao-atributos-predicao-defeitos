@@ -1,0 +1,4 @@
+model,searches,distinct_subsets,size_mean,size_min,size_max,reduction_pct,validation_gain,test_gain,search_hours,max_steps,stopped_by_budget,warnings
+LR,5,1,8.0,8,8,33.333333,0.039695,0.013519,0.041633,7,0,0
+RF,5,5,9.6,8,11,20.0,0.005633,-0.004323,3.802467,6,0,0
+SVM,5,1,5.0,5,5,58.333333,0.039336,0.00155,0.050373,7,0,0

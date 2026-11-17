@@ -27,6 +27,11 @@ classes foram refeitas sem limite de orçamento, até o ótimo local. Nenhum dos
 o ganho na validação interna aumentou e o ganho no teste diminuiu nos três, e, na floresta aleatória, o intervalo de
 confiança da diferença de MCC ficou inteiramente abaixo de zero.
 
+Na análise a posteriori (g), descrita em `ANALISE_G.md`, o cenário de commits foi refeito sem o identificador
+`apache/hadoop`, que não tem nenhum commit rotulado como indutor de defeito, retirado do desenvolvimento e do teste.
+Essa análise não foi registrada antes da execução. O MCC com todos os atributos subiu para 0,355 a 0,463, e a seleção
+continuou sem ganho significativo nos três classificadores.
+
 ## Estrutura
 
 | Caminho | Conteúdo |
@@ -40,6 +45,10 @@ confiança da diferença de MCC ficou inteiramente abaixo de zero.
 | `REGISTRO_ANALISE_F.md` | Registro da análise a posteriori (f), feito antes da execução, e o relato da execução. |
 | `run_convergence.py` | Análise (f): as 150 buscas do cenário de classes sem limite de orçamento (parada apenas em ótimo local). |
 | `analyze_convergence.py` | Comparação da análise (f) com a análise principal (saídas em `results/analysis/convergence_*.csv`). |
+| `ANALISE_G.md` | Descrição da análise a posteriori (g), com o histórico da execução e a conferência. |
+| `run_nohadoop.py` | Análise (g): o cenário de commits sem o identificador `apache/hadoop`, retirado do desenvolvimento e do teste. |
+| `analyze_nohadoop.py` | Comparação da análise (g) com a análise principal e com o recálculo (c) (saídas em `results/analysis/nohadoop_*.csv`). |
+| `compare_tasks.py` | Compara duas execuções tarefa por tarefa (JSON, exceto tempos, e previsões). |
 | `download_data.py`, `data_manifest.json` | Obtenção dos dados nas fontes originais, com conferência de SHA-256. |
 | `results/tasks/` | Um JSON por (cenário, rodada, modelo, semente): subconjunto escolhido, trajetórias, rastro da busca e métricas externas. |
 | `results/eval_cache/` | Cada avaliação de candidato: MCC em cada divisão interna e tempo. |
@@ -50,6 +59,7 @@ confiança da diferença de MCC ficou inteiramente abaixo de zero.
 | `results/environment.json`, `results/run.log` | Ambiente e registro da execução. |
 | `results/alternatives/` | Resultados do experimento complementar (tarefas, cache das avaliações e análise). |
 | `results/convergence/` | Resultados da análise (f): tarefas, cache das avaliações e previsões. |
+| `results/nohadoop/` | Resultados da análise (g): tarefas, cache das avaliações e previsões; em `conferencia/`, o ambiente e a comparação da reexecução. |
 
 ## Como reproduzir
 
@@ -66,6 +76,8 @@ python analyze_alternatives.py
 python analyze_posthoc.py
 python run_convergence.py --workers 2   # análise a posteriori (f), cerca de 3 horas
 python analyze_convergence.py
+python run_nohadoop.py --workers 2   # análise a posteriori (g), cerca de 2 horas
+python analyze_nohadoop.py
 ```
 
 Os resultados da execução original já estão em `results/`. Para recalcular tudo do zero, apague `results/tasks/` e
