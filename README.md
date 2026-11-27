@@ -1,91 +1,168 @@
-# Seleção de atributos por Hill Climbing na predição de defeitos de software
+<div align="center">
+
+# Pacote de reprodução do TCC
+
+**Seleção de atributos por Hill Climbing na predição de defeitos de software, nos níveis de classe e de commit**
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24295861.svg)](https://doi.org/10.5281/zenodo.24295861)
+[![Versão](https://img.shields.io/github/v/release/lucasrbsouza/tcc-selecao-atributos-predicao-defeitos?label=vers%C3%A3o)](https://github.com/lucasrbsouza/tcc-selecao-atributos-predicao-defeitos/releases)
+[![Python 3.12 | 3.13](https://img.shields.io/badge/python-3.12%20%7C%203.13-3776AB)](#instalação)
+[![Licença: GPL-3.0](https://img.shields.io/badge/licen%C3%A7a-GPL--3.0-blue)](LICENSE)
 
-Código e resultados do Trabalho de Conclusão de Curso de **José Lucas Silva Souza**
-(Engenharia de Software, Instituto de Ensino Superior iCEV), orientado pelo Prof. Me. Mauro José Araújo de Melo.
+[Visão geral](#visão-geral-do-experimento) ·
+[Instalação](#instalação) ·
+[Como reproduzir](#como-reproduzir) ·
+[Estrutura](#estrutura) ·
+[Dados](#dados) ·
+[Como citar](#como-citar) ·
+[Licença](#licença)
 
-O estudo avalia o efeito da seleção de atributos por Hill Climbing sobre o desempenho de classificadores de
-defeitos em duas granularidades:
+</div>
 
-- **classe**: 10 projetos Java da coleção de Jureczko e Madeyski, avaliados entre projetos (leave-one-project-out);
-- **commit**: 106.674 commits do ApacheJIT, avaliados por período (desenvolvimento até 2016, teste de 2017 a 2019).
+Pacote de reprodução do TCC de José Lucas Silva Souza (iCEV, Teresina, 2026), com orientação do
+Prof. Me. Mauro José Araújo de Melo. Aqui estão o código do experimento e das análises, o manifesto dos dados,
+as partições, o registro de cada busca, as previsões e as tabelas de resultados. O desenho do estudo, os resultados
+e a discussão estão no texto do TCC; este arquivo trata da organização do pacote e de como reproduzir a execução.
 
-Foram comparados regressão logística, floresta aleatória e SVM linear, com todos os atributos e com o subconjunto
-escolhido pelo Hill Climbing (MCC médio em três validações internas; teste externo isolado das decisões).
-São 165 buscas (5 sementes) e 330 avaliações externas.
+## Visão geral do experimento
 
-## Resultado principal
+<p align="center">
+  <img src="results/figures/fig_protocol.png" width="760" alt="Fluxo do protocolo: nos cenários de classes e de commits, a seleção por Hill Climbing é orientada apenas pela validação interna; o subconjunto escolhido é reajustado no desenvolvimento e avaliado uma vez no teste externo.">
+  <br>
+  <sub>Fluxo do protocolo (Figura 1 do artigo), gerado por <code>figures.py</code>.</sub>
+</p>
 
-A seleção reduziu, em média, de 22% a 50% dos atributos, mas nenhuma das seis comparações entre seleção e linha de
-base mostrou ganho significativo após a correção de Holm. Na floresta aleatória com classes, a seleção piorou o MCC
-em sete dos dez projetos. Os ganhos obtidos nas validações internas foram maiores que os observados no teste. Um filtro
-univariado e uma seleção embutida L1, avaliados sob o mesmo protocolo, também não produziram ganho significativo.
+- **Cenários:** classes de 10 projetos Java (coleção de Jureczko e Madeyski), com um projeto reservado para o teste
+  em cada rodada (leave-one-project-out), e 106.674 commits do ApacheJIT, com desenvolvimento até 2016 e teste de
+  2017 a 2019.
+- **Classificadores:** regressão logística (LR), floresta aleatória (RF) e SVM linear (SVM), cada um treinado com o
+  conjunto completo de atributos e com o subconjunto devolvido pela busca.
+- **Busca:** Hill Climbing, com o MCC médio de três validações internas como critério; o teste externo não participa
+  de nenhuma escolha. Ao todo, 165 buscas (5 sementes) e 330 avaliações externas.
+- **Análises a posteriori:** (f) refaz, sem limite de orçamento, as 150 buscas do cenário de classes e foi registrada
+  em [`REGISTRO_ANALISE_F.md`](REGISTRO_ANALISE_F.md) antes da execução; (g) refaz o cenário de commits sem o
+  identificador `apache/hadoop` e está descrita em [`ANALISE_G.md`](ANALISE_G.md).
 
-Na análise a posteriori (f), registrada em `REGISTRO_ANALISE_F.md` antes da execução, as 150 buscas do cenário de
-classes foram refeitas sem limite de orçamento, até o ótimo local. Nenhum dos três classificadores passou a ter ganho:
-o ganho na validação interna aumentou e o ganho no teste diminuiu nos três, e, na floresta aleatória, o intervalo de
-confiança da diferença de MCC ficou inteiramente abaixo de zero.
+As tabelas usadas no texto estão em [`results/analysis/`](results/analysis), e as figuras, em
+[`results/figures/`](results/figures).
 
-Na análise a posteriori (g), descrita em `ANALISE_G.md`, o cenário de commits foi refeito sem o identificador
-`apache/hadoop`, que não tem nenhum commit rotulado como indutor de defeito, retirado do desenvolvimento e do teste.
-Essa análise não foi registrada antes da execução. O MCC com todos os atributos subiu para 0,355 a 0,463, e a seleção
-continuou sem ganho significativo nos três classificadores.
+## Instalação
 
-## Estrutura
+Requer Linux e Python 3.12 ou 3.13 (os scripts de execução leem `/proc/cpuinfo` para registrar o ambiente).
 
-| Caminho | Conteúdo |
-|---|---|
-| `run_experiment.py` | Experimento completo. Grava um JSON por tarefa e um cache por avaliação; pode ser interrompido e retomado. |
-| `analyze.py` | Análise das questões de pesquisa: QP1, QP2 (Wilcoxon pareado e Holm) e QP3, além da análise de sensibilidade. |
-| `figures.py` | Figuras do artigo (Figura 1, fluxo do protocolo; Figuras 2 e 3, resultados). |
-| `run_alternatives.py` | Experimento complementar: filtro univariado (teste F) e seleção embutida (regressão logística L1), sob o mesmo protocolo. |
-| `analyze_alternatives.py` | Comparação entre Hill Climbing, filtro e L1. |
-| `analyze_posthoc.py` | Análises a posteriori feitas só com os registros gravados: trajetórias e paradas por orçamento, origem da máscara escolhida, ganho interno, Wilcoxon bilateral, estimativa de Hodges-Lehmann com intervalo de confiança e desempenho dos commits sem `apache/hadoop` (saídas em `results/analysis/posthoc_*.csv`). |
-| `REGISTRO_ANALISE_F.md` | Registro da análise a posteriori (f), feito antes da execução, e o relato da execução. |
-| `run_convergence.py` | Análise (f): as 150 buscas do cenário de classes sem limite de orçamento (parada apenas em ótimo local). |
-| `analyze_convergence.py` | Comparação da análise (f) com a análise principal (saídas em `results/analysis/convergence_*.csv`). |
-| `ANALISE_G.md` | Descrição da análise a posteriori (g), com o histórico da execução e a conferência. |
-| `run_nohadoop.py` | Análise (g): o cenário de commits sem o identificador `apache/hadoop`, retirado do desenvolvimento e do teste. |
-| `analyze_nohadoop.py` | Comparação da análise (g) com a análise principal e com o recálculo (c) (saídas em `results/analysis/nohadoop_*.csv`). |
-| `compare_tasks.py` | Compara duas execuções tarefa por tarefa (JSON, exceto tempos, e previsões). |
-| `download_data.py`, `data_manifest.json` | Obtenção dos dados nas fontes originais, com conferência de SHA-256. |
-| `results/tasks/` | Um JSON por (cenário, rodada, modelo, semente): subconjunto escolhido, trajetórias, rastro da busca e métricas externas. |
-| `results/eval_cache/` | Cada avaliação de candidato: MCC em cada divisão interna e tempo. |
-| `results/predictions/` | Previsões e escores no teste externo, com e sem seleção. |
-| `results/analysis/` | Tabelas usadas no artigo. |
-| `results/figures/` | Figuras. |
-| `results/partitions.csv` | Partições internas e externas. |
-| `results/environment.json`, `results/run.log` | Ambiente e registro da execução. |
-| `results/alternatives/` | Resultados do experimento complementar (tarefas, cache das avaliações e análise). |
-| `results/convergence/` | Resultados da análise (f): tarefas, cache das avaliações e previsões. |
-| `results/nohadoop/` | Resultados da análise (g): tarefas, cache das avaliações e previsões; em `conferencia/`, o ambiente e a comparação da reexecução. |
+```bash
+git clone https://github.com/lucasrbsouza/tcc-selecao-atributos-predicao-defeitos.git
+cd tcc-selecao-atributos-predicao-defeitos
+python3.13 -m venv .venv          # ou python3.12
+source .venv/bin/activate
+pip install -r requirements.txt
+python download_data.py           # baixa os dados (cerca de 21 MB) em data/ e confere os hashes
+```
 
 ## Como reproduzir
 
-Requer Python 3.12 ou 3.13.
+Os resultados da execução original já estão em `results/`. A partir deles, é possível refazer só as análises,
+refazer parte das buscas para conferi-las ou repetir a execução inteira.
+
+### Refazer as tabelas e as figuras
+
+As análises usam os registros gravados em `results/`, sem repetir as buscas, e terminam em menos de um minuto:
 
 ```bash
-pip install -r requirements.txt
-python download_data.py          # baixa os dados e confere os hashes
-python run_experiment.py --workers 2   # cerca de 12 horas de CPU; reaproveita o que já estiver em results/
 python analyze.py
 python figures.py
-python run_alternatives.py --workers 2   # experimento complementar (cerca de 1 hora)
 python analyze_alternatives.py
 python analyze_posthoc.py
-python run_convergence.py --workers 2   # análise a posteriori (f), cerca de 3 horas
 python analyze_convergence.py
-python run_nohadoop.py --workers 2   # análise a posteriori (g), cerca de 2 horas
 python analyze_nohadoop.py
 ```
 
-Os resultados da execução original já estão em `results/`. Para recalcular tudo do zero, apague `results/tasks/` e
-`results/eval_cache/` antes de rodar `run_experiment.py`.
+### Conferir parte da execução
+
+Os scripts `run_*.py` aceitam `--out`, que grava a execução em outra pasta. O `run_experiment.py` aceita também
+`--scenario`, `--model`, `--seed` e `--fold` (o projeto de teste, como `ant`, no cenário de classes; `temporal`, no de
+commits), para rodar só parte das tarefas. Com isso, é possível refazer uma tarefa, em menos de um minuto, e
+compará-la com a execução original:
+
+```bash
+python run_experiment.py --out /tmp/reexecucao --scenario classes --fold ant --model LR --seed 101 --workers 1
+python compare_tasks.py results /tmp/reexecucao
+```
+
+O `compare_tasks.py` compara, tarefa por tarefa, o JSON (exceto os tempos) e as previsões, e termina com código 1 se
+houver alguma diferença. A reexecução da análise (g) foi conferida da mesma forma
+([`results/nohadoop/conferencia/comparacao.txt`](results/nohadoop/conferencia/comparacao.txt)).
+
+### Execução completa
+
+```bash
+# Experimento principal (cerca de 12 horas de CPU)
+python run_experiment.py --workers 2
+python analyze.py
+python figures.py
+
+# Experimento complementar: filtro F e seleção L1 (cerca de 1 hora)
+python run_alternatives.py --workers 2
+python analyze_alternatives.py
+
+# Análises a posteriori
+python analyze_posthoc.py
+python run_convergence.py --workers 2   # (f), cerca de 3 horas
+python analyze_convergence.py
+python run_nohadoop.py --workers 2      # (g), cerca de 2 horas
+python analyze_nohadoop.py
+```
+
+Cada script `run_*.py` grava um JSON por tarefa e um cache por avaliação e pula as tarefas já gravadas, de modo que a
+execução pode ser interrompida e retomada. Com os resultados originais no lugar, não há tarefas a executar; para
+recalcular tudo do zero, apague `results/tasks/` e `results/eval_cache/` antes de rodar `run_experiment.py`. Os
+tempos indicados são aproximados e se referem a dois processos (`--workers 2`); sem essa opção, os scripts usam um
+processo por CPU lógica.
+
+## Estrutura
+
+### Código
+
+| Arquivo | Função |
+|---|---|
+| [`run_experiment.py`](run_experiment.py) | Experimento completo. Grava um JSON por tarefa e um cache por avaliação; pode ser interrompido e retomado. |
+| [`analyze.py`](analyze.py) | Análise das questões de pesquisa: QP1, QP2 (Wilcoxon pareado e Holm) e QP3, além da análise de sensibilidade. |
+| [`figures.py`](figures.py) | Figuras do artigo (Figura 1, fluxo do protocolo; Figuras 2 e 3, resultados). |
+| [`run_alternatives.py`](run_alternatives.py) | Experimento complementar: filtro univariado (teste F) e seleção embutida (regressão logística L1), sob o mesmo protocolo. |
+| [`analyze_alternatives.py`](analyze_alternatives.py) | Comparação entre Hill Climbing, filtro e L1. |
+| [`analyze_posthoc.py`](analyze_posthoc.py) | Análises a posteriori feitas só com os registros gravados: trajetórias e paradas por orçamento, origem da máscara escolhida, ganho interno, Wilcoxon bilateral, estimativa de Hodges-Lehmann com intervalo de confiança e desempenho dos commits sem `apache/hadoop` (saídas em `results/analysis/posthoc_*.csv`). |
+| [`run_convergence.py`](run_convergence.py) | Análise (f): as 150 buscas do cenário de classes sem limite de orçamento (parada apenas em ótimo local). |
+| [`analyze_convergence.py`](analyze_convergence.py) | Comparação da análise (f) com a análise principal (saídas em `results/analysis/convergence_*.csv`). |
+| [`run_nohadoop.py`](run_nohadoop.py) | Análise (g): o cenário de commits sem o identificador `apache/hadoop`, retirado do desenvolvimento e do teste. |
+| [`analyze_nohadoop.py`](analyze_nohadoop.py) | Comparação da análise (g) com a análise principal e com o recálculo (c) (saídas em `results/analysis/nohadoop_*.csv`). |
+| [`compare_tasks.py`](compare_tasks.py) | Compara duas execuções tarefa por tarefa (JSON, exceto tempos, e previsões). |
+| [`download_data.py`](download_data.py), [`data_manifest.json`](data_manifest.json) | Obtenção dos dados nas fontes originais, com conferência de SHA-256. |
+
+### Documentos
+
+| Arquivo | Conteúdo |
+|---|---|
+| [`REGISTRO_ANALISE_F.md`](REGISTRO_ANALISE_F.md) | Registro da análise a posteriori (f), feito antes da execução, e o relato da execução. |
+| [`ANALISE_G.md`](ANALISE_G.md) | Descrição da análise a posteriori (g), com o histórico da execução e a conferência. |
+
+### Resultados
+
+| Caminho | Conteúdo |
+|---|---|
+| [`results/tasks/`](results/tasks) | Um JSON por (cenário, rodada, modelo, semente): subconjunto escolhido, trajetórias, rastro da busca e métricas externas. |
+| [`results/eval_cache/`](results/eval_cache) | Cada avaliação de candidato: MCC em cada divisão interna e tempo. |
+| [`results/predictions/`](results/predictions) | Previsões e escores no teste externo, com e sem seleção. |
+| [`results/analysis/`](results/analysis) | Tabelas usadas no artigo. |
+| [`results/figures/`](results/figures) | Figuras. |
+| [`results/partitions.csv`](results/partitions.csv) | Partições internas e externas. |
+| [`results/environment.json`](results/environment.json), [`results/run.log`](results/run.log) | Ambiente e registro da execução. |
+| [`results/alternatives/`](results/alternatives) | Resultados do experimento complementar (tarefas, cache das avaliações e análise). |
+| [`results/convergence/`](results/convergence) | Resultados da análise (f): tarefas, cache das avaliações e previsões. |
+| [`results/nohadoop/`](results/nohadoop) | Resultados da análise (g): tarefas, cache das avaliações e previsões; em `conferencia/`, o ambiente e a comparação da reexecução. |
 
 ## Dados
 
-Os arquivos de dados **não** são redistribuídos aqui; `download_data.py` os obtém das fontes:
+Os arquivos de dados **não** são redistribuídos aqui; `download_data.py` os obtém das fontes e os grava em `data/`:
 
 - Classes: coleção de Jureczko e Madeyski, pelo espelho [klainfo/DefectData](https://github.com/klainfo/DefectData)
   (revisão fixada no manifesto).
@@ -102,14 +179,20 @@ Ao usar os dados, cite os autores originais:
 
 Versão 1.2.0, usada no artigo: [10.5281/zenodo.24295861](https://doi.org/10.5281/zenodo.24295861).
 Para citar sem fixar uma versão, use o DOI conceito [10.5281/zenodo.24258042](https://doi.org/10.5281/zenodo.24258042),
-que sempre aponta para a versão mais recente.
+que sempre aponta para a versão mais recente. A página de cada versão no Zenodo traz a referência completa e
+permite exportá-la em vários formatos.
 
-- SOUZA, J. L. S. Seleção de atributos por Hill Climbing na predição de defeitos de software. Versão 1.2.0. Zenodo,
-  2026. DOI: 10.5281/zenodo.24295861.
+| Versão | DOI | Mudanças |
+|---|---|---|
+| [1.2.0](https://github.com/lucasrbsouza/tcc-selecao-atributos-predicao-defeitos/releases/tag/v1.2.0) | [10.5281/zenodo.24295861](https://doi.org/10.5281/zenodo.24295861) | Acrescentou a análise a posteriori (g). |
+| [1.1.0](https://github.com/lucasrbsouza/tcc-selecao-atributos-predicao-defeitos/releases/tag/v1.1.0) | [10.5281/zenodo.24295160](https://doi.org/10.5281/zenodo.24295160) | Acrescentou a análise a posteriori (f). |
+| [1.0.0](https://github.com/lucasrbsouza/tcc-selecao-atributos-predicao-defeitos/releases/tag/v1.0.0) | [10.5281/zenodo.24258043](https://doi.org/10.5281/zenodo.24258043) | Primeira versão publicada. |
 
-Versões anteriores: 1.1.0 ([10.5281/zenodo.24295160](https://doi.org/10.5281/zenodo.24295160)), que acrescentou a
-análise a posteriori (f), e 1.0.0 ([10.5281/zenodo.24258043](https://doi.org/10.5281/zenodo.24258043)). A versão
-1.2.0 acrescentou a análise a posteriori (g).
+## Problemas e sugestões
+
+Problemas para reproduzir a execução, erros no código ou na documentação e dúvidas podem ser relatados nas
+[issues](https://github.com/lucasrbsouza/tcc-selecao-atributos-predicao-defeitos/issues) do repositório. Ao relatar
+um problema, informe o comando usado, a versão do Python e a mensagem de erro.
 
 ## Licença
 
